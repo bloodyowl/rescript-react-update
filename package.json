@@ -1,0 +1,31 @@
+{
+  "name": "reason-react-update",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "bsb -make-world",
+    "start": "bsb -make-world -w",
+    "clean": "bsb -clean-world",
+    "test": "bsb -make-world"
+  },
+  "bugs": "https://github.com/bloodyowl/reason-react-update/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bloodyowl/reason-react-update.git"
+  },
+  "keywords": [
+    "reason-react"
+  ],
+  "author": "bloodyowl <bloodyowl@icloud.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "reason-react": ">=0.7.0"
+  },
+  "devDependencies": {
+    "bs-platform": "^5.0.1",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "reason-react": ">=0.7.0"
+  }
+}
