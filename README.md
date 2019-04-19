@@ -31,7 +31,7 @@ let make = () => {
     ReactUpdate.useReducer(0, (action, state) =>
       switch (action) {
       | Increment => Update(state + 1)
-      | Decrement => Update(state + 1)
+      | Decrement => Update(state - 1)
       }
     );
   <div>
