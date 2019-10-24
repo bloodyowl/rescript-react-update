@@ -14,3 +14,7 @@ and self('action, 'state) = {
 let useReducer:
   ('state, ('action, 'state) => update('action, 'state)) =>
   ('state, 'action => unit);
+
+let useReducerWithMapState:
+  (unit => 'state, ('action, 'state) => update('action, 'state)) =>
+  ('state, 'action => unit);
