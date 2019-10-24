@@ -1,11 +1,8 @@
 type update('action, 'state) =
   | NoUpdate
   | Update('state)
-  | UpdateWithSideEffects(
-      'state,
-      self('action, 'state) => option(unit => unit),
-    )
-  | SideEffects(self('action, 'state) => option(unit => unit))
+  | UpdateWithSideEffects('state, self('action, 'state) => unit)
+  | SideEffects(self('action, 'state) => unit)
 and self('action, 'state) = {
   send: 'action => unit,
   state: 'state,

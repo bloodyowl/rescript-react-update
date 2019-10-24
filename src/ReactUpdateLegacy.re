@@ -3,18 +3,15 @@ open Belt;
 type update('action, 'state) =
   | NoUpdate
   | Update('state)
-  | UpdateWithSideEffects(
-      'state,
-      self('action, 'state) => option(unit => unit),
-    )
-  | SideEffects(self('action, 'state) => option(unit => unit))
+  | UpdateWithSideEffects('state, self('action, 'state) => unit)
+  | SideEffects(self('action, 'state) => unit)
 and self('action, 'state) = {
   send: 'action => unit,
   state: 'state,
 }
 and fullState('action, 'state) = {
   state: 'state,
-  sideEffects: ref(array(self('action, 'state) => option(unit => unit))),
+  sideEffects: ref(array(self('action, 'state) => unit)),
 };
 
 let useReducer = (initialState, reducer) => {
@@ -37,16 +34,13 @@ let useReducer = (initialState, reducer) => {
       {state: initialState, sideEffects: ref([||])},
     );
   React.useEffect1(
-    () =>
+    () => {
       if (Array.length(sideEffects^) > 0) {
-        let cancelFuncs =
-          Array.keepMap(sideEffects^, func => func({state, send}));
+        Array.forEach(sideEffects^, func => func({state, send}));
         sideEffects := [||];
-        Array.length(cancelFuncs) > 0
-          ? Some(() => cancelFuncs->Array.forEach(func => func())) : None;
-      } else {
-        None;
-      },
+      };
+      None;
+    },
     [|sideEffects|],
   );
   (state, send);
@@ -73,16 +67,13 @@ let useReducerWithMapState = (getInitialState, reducer) => {
       () => {state: getInitialState(), sideEffects: ref([||])},
     );
   React.useEffect1(
-    () =>
+    () => {
       if (Array.length(sideEffects^) > 0) {
-        let cancelFuncs =
-          Array.keepMap(sideEffects^, func => func({state, send}));
+        Array.forEach(sideEffects^, func => func({state, send}));
         sideEffects := [||];
-        Array.length(cancelFuncs) > 0
-          ? Some(() => cancelFuncs->Array.forEach(func => func())) : None;
-      } else {
-        None;
-      },
+      };
+      None;
+    },
     [|sideEffects|],
   );
   (state, send);
