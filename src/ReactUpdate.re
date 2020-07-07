@@ -39,10 +39,11 @@ let useReducer = (initialState, reducer) => {
   React.useEffect1(
     () =>
       if (Array.length(sideEffects^) > 0) {
-        let cancelFuncs =
-          Array.keepMap(sideEffects^, func => func({state, send}));
+        let sideEffectsToRun = Js.Array.sliceFrom(0, sideEffects^);
         sideEffects := [||];
-        Array.length(cancelFuncs) > 0
+        let cancelFuncs =
+          Array.keepMap(sideEffectsToRun, func => func({state, send}));
+         Array.length(cancelFuncs) > 0
           ? Some(() => cancelFuncs->Array.forEach(func => func())) : None;
       } else {
         None;
@@ -75,9 +76,10 @@ let useReducerWithMapState = (getInitialState, reducer) => {
   React.useEffect1(
     () =>
       if (Array.length(sideEffects^) > 0) {
-        let cancelFuncs =
-          Array.keepMap(sideEffects^, func => func({state, send}));
+        let sideEffectsToRun = Js.Array.sliceFrom(0, sideEffects^);
         sideEffects := [||];
+        let cancelFuncs =
+          Array.keepMap(sideEffectsToRun, func => func({state, send}));
         Array.length(cancelFuncs) > 0
           ? Some(() => cancelFuncs->Array.forEach(func => func())) : None;
       } else {
