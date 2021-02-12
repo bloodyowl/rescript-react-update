@@ -1,20 +1,20 @@
-# reason-react-update
+# rescript-react-update
 
 > useReducer with updates and side effects!
 
 ## Installation
 
 ```console
-$ yarn add reason-react-update
+$ yarn add rescript-react-update
 ```
 
 or
 
 ```console
-$ npm install --save reason-react-update
+$ npm install --save rescript-react-update
 ```
 
-Then add `reason-react-update` to your `bsconfig.json` `bs-dependencies` field.
+Then add `rescript-react-update` to your `bsconfig.json` `bs-dependencies` field.
 
 ## ReactUpdate.useReducer
 
