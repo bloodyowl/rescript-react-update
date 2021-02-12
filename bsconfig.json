@@ -20,7 +20,10 @@
       "in-source": true
     }
   ],
+  "warnings": {
+    "number": "-30"
+  },
   "suffix": ".bs.js",
-  "bs-dependencies": ["reason-react"],
+  "bs-dependencies": ["@rescript/react"],
   "refmt": 3
 }

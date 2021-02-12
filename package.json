@@ -1,5 +1,5 @@
 {
-  "name": "reason-react-update",
+  "name": "rescript-react-update",
   "version": "2.0.0",
   "scripts": {
     "build": "bsb -make-world",
@@ -7,25 +7,27 @@
     "clean": "bsb -clean-world",
     "test": "bsb -make-world"
   },
-  "bugs": "https://github.com/bloodyowl/reason-react-update/issues",
+  "bugs": "https://github.com/bloodyowl/rescript-react-update/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bloodyowl/reason-react-update.git"
+    "url": "https://github.com/bloodyowl/rescript-react-update.git"
   },
   "keywords": [
-    "reason-react"
+    "reason-react",
+    "rescript",
+    "react"
   ],
   "author": "bloodyowl <bloodyowl@icloud.com>",
   "license": "MIT",
   "peerDependencies": {
+    "@rescript/react": "^0.10.1",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0",
-    "reason-react": ">=0.7.0"
+    "react-dom": "^16.8.0"
   },
   "devDependencies": {
-    "bs-platform": "^5.0.3",
+    "@rescript/react": "^0.10.1",
+    "bs-platform": "^8.3.0",
     "react": "^16.8.0",
-    "react-dom": "^16.8.0",
-    "reason-react": ">=0.7.0"
+    "react-dom": "^16.8.0"
   }
 }
