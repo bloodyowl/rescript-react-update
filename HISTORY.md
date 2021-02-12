@@ -1,3 +1,11 @@
+## 3.0.0
+
+Changes:
+
+- Move to ReScript (62665af)
+- Move from reason-react to @rescript/react (62665af)
+- Rename project to `rescript-react-update` (62665af)
+
 ## 2.0.0
 
 Changes:
