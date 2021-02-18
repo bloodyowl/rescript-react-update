@@ -1,3 +1,9 @@
+## 3.0.1
+
+Fixes:
+
+- Fixed `bsconfig` name (thanks @jasim) (2ebd081)
+
 ## 3.0.0
 
 Changes:
