@@ -1,3 +1,9 @@
+## 3.0.2
+
+Changes:
+
+- Update React & React DOM peer dependencies (44c6959)
+
 ## 3.0.1
 
 Fixes:
