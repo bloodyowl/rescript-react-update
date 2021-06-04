@@ -1,16 +1,18 @@
-type rec update<'action, 'state> =
+type actionDispatcher<'action> = 'action => unit
+
+type rec update<'state, 'action> =
   | NoUpdate
   | Update('state)
-  | UpdateWithSideEffects('state, self<'action, 'state> => option<unit => unit>)
-  | SideEffects(self<'action, 'state> => option<unit => unit>)
-and self<'action, 'state> = {
+  | UpdateWithSideEffects('state, self<'state, 'action> => option<unit => unit>)
+  | SideEffects(self<'state, 'action> => option<unit => unit>)
+and self<'state, 'action> = {
   send: 'action => unit,
+  dispatch: 'action => unit,
   state: 'state,
 }
 
-let useReducer: ('state, ('action, 'state) => update<'action, 'state>) => ('state, 'action => unit)
+type reducer<'state, 'action> = ('state, 'action) => update<'state, 'action>
 
-let useReducerWithMapState: (
-  unit => 'state,
-  ('action, 'state) => update<'action, 'state>,
-) => ('state, 'action => unit)
+let useReducer: (reducer<'state, 'action>, 'state) => ('state, actionDispatcher<'action>)
+
+let useReducerWithMapState: (reducer<'state, 'action>, () => 'state) => ('state, actionDispatcher<'action>)

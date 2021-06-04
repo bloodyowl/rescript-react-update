@@ -1,22 +1,27 @@
 open Belt
 
-type rec update<'action, 'state> =
+type actionDispatcher<'action> = 'action => unit
+
+type rec update<'state, 'action> =
   | NoUpdate
   | Update('state)
-  | UpdateWithSideEffects('state, self<'action, 'state> => option<unit => unit>)
-  | SideEffects(self<'action, 'state> => option<unit => unit>)
-and self<'action, 'state> = {
-  send: 'action => unit,
+  | UpdateWithSideEffects('state, self<'state, 'action> => option<unit => unit>)
+  | SideEffects(self<'state, 'action> => option<unit => unit>)
+and self<'state, 'action> = {
+  send: actionDispatcher<'action>,
+  dispatch: actionDispatcher<'action>,
   state: 'state,
 }
-and fullState<'action, 'state> = {
+and fullState<'state, 'action> = {
   state: 'state,
-  sideEffects: ref<array<self<'action, 'state> => option<unit => unit>>>,
+  sideEffects: ref<array<self<'state, 'action> => option<unit => unit>>>,
 }
 
-let useReducer = (initialState, reducer) => {
+type reducer<'state, 'action> = ('state, 'action) => update<'state, 'action>
+
+let useReducer = (reducer, initialState) => {
   let ({state, sideEffects}, send) = React.useReducer(({state, sideEffects} as fullState, action) =>
-    switch reducer(action, state) {
+    switch reducer(state, action) {
     | NoUpdate => fullState
     | Update(state) => {...fullState, state: state}
     | UpdateWithSideEffects(state, sideEffect) => {
@@ -33,7 +38,9 @@ let useReducer = (initialState, reducer) => {
     if Array.length(sideEffects.contents) > 0 {
       let sideEffectsToRun = Js.Array.sliceFrom(0, sideEffects.contents)
       sideEffects := []
-      let cancelFuncs = Array.keepMap(sideEffectsToRun, func => func({state: state, send: send}))
+      let cancelFuncs = Array.keepMap(sideEffectsToRun, func =>
+        func({state: state, send: send, dispatch: send})
+      )
       Array.length(cancelFuncs) > 0 ? Some(() => cancelFuncs->Array.forEach(func => func())) : None
     } else {
       None
@@ -42,10 +49,10 @@ let useReducer = (initialState, reducer) => {
   (state, send)
 }
 
-let useReducerWithMapState = (getInitialState, reducer) => {
+let useReducerWithMapState = (reducer, getInitialState) => {
   let ({state, sideEffects}, send) = React.useReducerWithMapState(
     ({state, sideEffects} as fullState, action) =>
-      switch reducer(action, state) {
+      switch reducer(state, action) {
       | NoUpdate => fullState
       | Update(state) => {...fullState, state: state}
       | UpdateWithSideEffects(state, sideEffect) => {
@@ -64,7 +71,9 @@ let useReducerWithMapState = (getInitialState, reducer) => {
     if Array.length(sideEffects.contents) > 0 {
       let sideEffectsToRun = Js.Array.sliceFrom(0, sideEffects.contents)
       sideEffects := []
-      let cancelFuncs = Array.keepMap(sideEffectsToRun, func => func({state: state, send: send}))
+      let cancelFuncs = Array.keepMap(sideEffectsToRun, func =>
+        func({state: state, send: send, dispatch: send})
+      )
       Array.length(cancelFuncs) > 0 ? Some(() => cancelFuncs->Array.forEach(func => func())) : None
     } else {
       None
