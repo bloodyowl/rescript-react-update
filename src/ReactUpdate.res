@@ -1,6 +1,6 @@
 open Belt
 
-type actionDispatcher<'action> = 'action => unit
+type dispatch<'action> = 'action => unit
 
 type rec update<'state, 'action> =
   | NoUpdate
@@ -8,8 +8,8 @@ type rec update<'state, 'action> =
   | UpdateWithSideEffects('state, self<'state, 'action> => option<unit => unit>)
   | SideEffects(self<'state, 'action> => option<unit => unit>)
 and self<'state, 'action> = {
-  send: actionDispatcher<'action>,
-  dispatch: actionDispatcher<'action>,
+  send: dispatch<'action>,
+  dispatch: dispatch<'action>,
   state: 'state,
 }
 and fullState<'state, 'action> = {
