@@ -1,10 +1,10 @@
 module Counter = {
   type state = int
   type action = Increment | Decrement
-  let reducer: ReactUpdate.reducer<state, action> = (state, action) => {
+  let reducer = (state, action) => {
     switch action {
-    | Increment => Update({state + 1})
-    | Decrement => Update({state - 1})
+    | Increment => ReactUpdate.Update(state + 1)
+    | Decrement => Update(state - 1)
     }
   }
 
@@ -21,7 +21,7 @@ module Counter = {
   }
 }
 
-module BacisUsage = {
+module BasicUsage = {
   type action = Tick | Reset
   type state = {elapsed: int}
 
@@ -59,6 +59,6 @@ switch ReactDOM.querySelector("#counter") {
 }
 
 switch ReactDOM.querySelector("#basic") {
-| Some(root) => ReactDOM.render(<BacisUsage />, root)
+| Some(root) => ReactDOM.render(<BasicUsage />, root)
 | None => ()
 }
