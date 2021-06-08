@@ -5,7 +5,8 @@
     "build": "bsb -make-world",
     "start": "bsb -make-world -w",
     "clean": "bsb -clean-world",
-    "test": "bsb -make-world"
+    "test": "bsb -make-world",
+    "dev": "bsb -make-world && parcel examples/index.html"
   },
   "bugs": "https://github.com/bloodyowl/rescript-react-update/issues",
   "repository": {
