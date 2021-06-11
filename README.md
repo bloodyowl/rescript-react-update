@@ -28,23 +28,24 @@ type action =
 [@react.component]
 let make = () => {
   let (state, send) =
-    ReactUpdate.useReducer(0, (action, state) =>
+    ReactUpdate.useReducer((state, action) =>
       switch (action) {
       | Increment => Update(state + 1)
       | Decrement => Update(state - 1)
-      }
+      },
+      0
     );
   <div>
-    {state->Js.String.make->React.string}
-    <button onClick={_ => send(Decrement)}> "-"->React.string </button>
-    <button onClick={_ => send(Increment)}> "+"->React.string </button>
+    {state->React.int}
+    <button onClick={_ => send(Decrement)}> {"-"->React.string} </button>
+    <button onClick={_ => send(Increment)}> {"+"->React.string} </button>
   </div>;
 };
 ```
 
 ### Lazy initialisation
 
-## ReactUpdate.useReducer
+## ReactUpdate.useReducerWithMapState
 
 If you'd rather initialize state lazily (if there's so computation you don't want executed at every render for instance), use `useReducerWithMapState` where the first argument is a function taking `unit` and returning the initial state.
 
@@ -59,17 +60,17 @@ type action =
 let make = () => {
   let (state, send) =
     ReactUpdate.useReducerWithMapState(
-      () => 0,
-      (action, state) =>
+      (state, action) =>
         switch (action) {
         | Increment => Update(state + 1)
         | Decrement => Update(state + 1)
-        }
+        },
+        () => 0
     );
   <div>
-    {state->Js.String.make->React.string}
-    <button onClick={_ => send(Decrement)}> "-"->React.string </button>
-    <button onClick={_ => send(Increment)}> "+"->React.string </button>
+    {state->React.int}
+    <button onClick={_ => send(Decrement)}> {"-"->React.string} </button>
+    <button onClick={_ => send(Increment)}> {"+"->React.string} </button>
   </div>;
 };
 ```

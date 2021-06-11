@@ -5,7 +5,8 @@
     "build": "bsb -make-world",
     "start": "bsb -make-world -w",
     "clean": "bsb -clean-world",
-    "test": "bsb -make-world"
+    "test": "bsb -make-world",
+    "dev": "bsb -make-world && parcel examples/index.html"
   },
   "bugs": "https://github.com/bloodyowl/rescript-react-update/issues",
   "repository": {
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@rescript/react": "^0.10.1",
     "bs-platform": "^8.3.0",
+    "parcel-bundler": "^1.12.5",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   }

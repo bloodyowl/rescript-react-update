@@ -5,3 +5,5 @@ npm-debug.log
 /lib/bs/
 /node_modules/
 *.bs.js
+.cache/*
+dist/*
