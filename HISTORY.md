@@ -1,3 +1,9 @@
+## 4.0.0
+
+Changes:
+
+- **Breaking change**: the argument order has been changed to match React's APIs (af9447e)
+
 ## 3.0.2
 
 Changes:
