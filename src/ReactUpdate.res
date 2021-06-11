@@ -2,22 +2,22 @@ open Belt
 
 type dispatch<'action> = 'action => unit
 
-type rec update<'state, 'action> =
+type rec update<'action, 'state> =
   | NoUpdate
   | Update('state)
-  | UpdateWithSideEffects('state, self<'state, 'action> => option<unit => unit>)
-  | SideEffects(self<'state, 'action> => option<unit => unit>)
-and self<'state, 'action> = {
+  | UpdateWithSideEffects('state, self<'action, 'state> => option<unit => unit>)
+  | SideEffects(self<'action, 'state> => option<unit => unit>)
+and self<'action, 'state> = {
   send: dispatch<'action>,
   dispatch: dispatch<'action>,
   state: 'state,
 }
-and fullState<'state, 'action> = {
+and fullState<'action, 'state> = {
   state: 'state,
-  sideEffects: ref<array<self<'state, 'action> => option<unit => unit>>>,
+  sideEffects: ref<array<self<'action, 'state> => option<unit => unit>>>,
 }
 
-type reducer<'state, 'action> = ('state, 'action) => update<'state, 'action>
+type reducer<'state, 'action> = ('state, 'action) => update<'action, 'state>
 
 let useReducer = (reducer, initialState) => {
   let ({state, sideEffects}, send) = React.useReducer(({state, sideEffects} as fullState, action) =>
