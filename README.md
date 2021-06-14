@@ -47,7 +47,7 @@ let make = () => {
 
 ## ReactUpdate.useReducerWithMapState
 
-If you'd rather initialize state lazily (if there's so computation you don't want executed at every render for instance), use `useReducerWithMapState` where the first argument is a function taking `unit` and returning the initial state.
+If you'd rather initialize state lazily (if there's some computation you don't want executed at every render for instance), use `useReducerWithMapState` where the first argument is a function taking `unit` and returning the initial state.
 
 ```reason
 type state = int;
