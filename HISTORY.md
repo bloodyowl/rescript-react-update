@@ -1,3 +1,9 @@
+## 5.0.0
+
+Fixes:
+
+- Fixed effect cleanup (1816f51)
+
 ## 4.0.0
 
 Changes:
