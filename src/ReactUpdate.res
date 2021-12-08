@@ -20,6 +20,7 @@ and fullState<'action, 'state> = {
 type reducer<'state, 'action> = ('state, 'action) => update<'action, 'state>
 
 let useReducer = (reducer, initialState) => {
+  let cleanupEffects = React.useRef([])
   let ({state, sideEffects}, send) = React.useReducer(({state, sideEffects} as fullState, action) =>
     switch reducer(state, action) {
     | NoUpdate => fullState
@@ -34,22 +35,26 @@ let useReducer = (reducer, initialState) => {
       }
     }
   , {state: initialState, sideEffects: ref([])})
-  React.useEffect1(() =>
+  React.useEffect1(() => {
     if Array.length(sideEffects.contents) > 0 {
       let sideEffectsToRun = Js.Array.sliceFrom(0, sideEffects.contents)
       sideEffects := []
       let cancelFuncs = Array.keepMap(sideEffectsToRun, func =>
         func({state: state, send: send, dispatch: send})
       )
-      Array.length(cancelFuncs) > 0 ? Some(() => cancelFuncs->Array.forEach(func => func())) : None
-    } else {
-      None
+      let _ = cleanupEffects.current->Js.Array2.pushMany(cancelFuncs)
     }
-  , [sideEffects])
+    None
+  }, [sideEffects])
+
+  React.useEffect0(() => {
+    Some(() => cleanupEffects.current->Js.Array2.forEach(cb => cb()))
+  })
   (state, send)
 }
 
 let useReducerWithMapState = (reducer, getInitialState) => {
+  let cleanupEffects = React.useRef([])
   let ({state, sideEffects}, send) = React.useReducerWithMapState(
     ({state, sideEffects} as fullState, action) =>
       switch reducer(state, action) {
@@ -67,17 +72,20 @@ let useReducerWithMapState = (reducer, getInitialState) => {
     (),
     () => {state: getInitialState(), sideEffects: ref([])},
   )
-  React.useEffect1(() =>
+  React.useEffect1(() => {
     if Array.length(sideEffects.contents) > 0 {
       let sideEffectsToRun = Js.Array.sliceFrom(0, sideEffects.contents)
       sideEffects := []
       let cancelFuncs = Array.keepMap(sideEffectsToRun, func =>
         func({state: state, send: send, dispatch: send})
       )
-      Array.length(cancelFuncs) > 0 ? Some(() => cancelFuncs->Array.forEach(func => func())) : None
-    } else {
-      None
+      let _ = cleanupEffects.current->Js.Array2.pushMany(cancelFuncs)
     }
-  , [sideEffects])
+    None
+  }, [sideEffects])
+
+  React.useEffect0(() => {
+    Some(() => cleanupEffects.current->Js.Array2.forEach(cb => cb()))
+  })
   (state, send)
 }
