@@ -1,3 +1,9 @@
+## 5.0.2
+
+Changes:
+
+- Add compat with React 18 (a1bd63a)
+
 ## 5.0.1
 
 Changes:
