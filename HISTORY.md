@@ -1,3 +1,9 @@
+## 5.0.1
+
+Changes:
+
+- Add compat with ReScript React 0.11.x (6c0d979)
+
 ## 5.0.0
 
 Fixes:
