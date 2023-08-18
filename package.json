@@ -1,6 +1,6 @@
 {
   "name": "rescript-react-update",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "scripts": {
     "build": "bsb -make-world",
     "start": "bsb -make-world -w",
