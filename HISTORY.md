@@ -1,3 +1,9 @@
+## 6.0.1
+
+Changes:
+
+- Prepare for ReScript 13 (3cd3bfb)
+
 ## 6.0.0
 
 Changes:
