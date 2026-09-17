@@ -35,9 +35,9 @@ let useReducer = (reducer, initialState) => {
   , {state: initialState, sideEffects: ref([])})
   React.useEffect1(() => {
     if Array.length(sideEffects.contents) > 0 {
-      let sideEffectsToRun = Js.Array.sliceFrom(0, sideEffects.contents)
+      let sideEffectsToRun = Array.slice(sideEffects.contents)
       sideEffects := []
-      let cancelFuncs = Belt.Array.keepMap(sideEffectsToRun, func =>
+      let cancelFuncs = Array.filterMap(sideEffectsToRun, func =>
         func({state, send, dispatch: send})
       )
       let _ = cleanupEffects.current->Array.pushMany(cancelFuncs)
@@ -72,9 +72,9 @@ let useReducerWithMapState = (reducer, getInitialState) => {
   )
   React.useEffect1(() => {
     if Array.length(sideEffects.contents) > 0 {
-      let sideEffectsToRun = Js.Array.sliceFrom(0, sideEffects.contents)
+      let sideEffectsToRun = Array.slice(sideEffects.contents)
       sideEffects := []
-      let cancelFuncs = Belt.Array.keepMap(sideEffectsToRun, func =>
+      let cancelFuncs = Array.filterMap(sideEffectsToRun, func =>
         func({state, send, dispatch: send})
       )
       let _ = cleanupEffects.current->Array.pushMany(cancelFuncs)
