@@ -29,7 +29,7 @@ let useReducer = (initialState, reducer) => {
   , {state: initialState, sideEffects: ref([])})
   React.useEffect1(() => {
     if Array.length(sideEffects.contents) > 0 {
-      let sideEffectsToRun = Js.Array.sliceFrom(0, sideEffects.contents)
+      let sideEffectsToRun = Array.slice(sideEffects.contents)
       sideEffects := []
       Array.forEach(sideEffectsToRun, func => func({state, send}))
     }
@@ -58,7 +58,7 @@ let useReducerWithMapState = (getInitialState, reducer) => {
   )
   React.useEffect1(() => {
     if Array.length(sideEffects.contents) > 0 {
-      let sideEffectsToRun = Js.Array.sliceFrom(0, sideEffects.contents)
+      let sideEffectsToRun = Array.slice(sideEffects.contents)
       sideEffects := []
       Array.forEach(sideEffectsToRun, func => func({state, send}))
     }
