@@ -1,3 +1,9 @@
+## 6.1.0
+
+Changes:
+
+- Use stdlib (045f440) (thanks @Freddy03h!)
+
 ## 6.0.1
 
 Changes:
